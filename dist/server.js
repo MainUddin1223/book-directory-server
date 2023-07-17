@@ -17,7 +17,7 @@ const app_1 = __importDefault(require("./app"));
 const config_1 = __importDefault(require("./config"));
 let server;
 process.on('uncoughtException', err => {
-    console.log('-------------uncought Exception Dietected-----------', err);
+    console.log('-------------uncought Exception Ditected-----------', err);
     console.log(err);
     process.exit(1);
 });

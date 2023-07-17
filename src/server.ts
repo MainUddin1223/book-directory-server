@@ -5,7 +5,7 @@ import config from './config';
 let server: Server;
 
 process.on('uncoughtException', err => {
-  console.log('-------------uncought Exception Dietected-----------', err);
+  console.log('-------------uncought Exception Ditected-----------', err);
   console.log(err);
   process.exit(1);
 });
