@@ -9,12 +9,7 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
     const getUser = await User.findById(_id).select('-password');
     if (getUser?.email) {
       const userData = { _id: getUser._id, email: getUser.email };
-      const token = jwtHelpers.createJwtToken(
-        userData,
-        jwt_access_secret!,
-        jwt_access_expires_in!
-      );
-      res.status(200).json({ ...userData, token });
+      res.status(200).json(userData);
     } else {
       throw new Error('User not found');
     }

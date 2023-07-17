@@ -14,6 +14,40 @@ const createBook = async (req: Request, res: Response, next: NextFunction) => {
     next(error);
   }
 };
+const getBookById = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const id = req.params.id;
+    const result = await bookService.getBookById(id as string);
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+const updateBook = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const bookData = req.body;
+    const _id = req.user?._id;
+    const bookId = req.params.id;
+    const result = await bookService.updateBook(
+      _id,
+      bookId as string,
+      bookData
+    );
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+const deleteBook = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const _id = req.user?._id;
+    const bookId = req.params.id;
+    const result = await bookService.deleteBook(_id, bookId as string);
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
 const getAllBookes = async (
   req: Request,
   res: Response,
@@ -29,4 +63,10 @@ const getAllBookes = async (
   }
 };
 
-export const bookController = { createBook, getAllBookes };
+export const bookController = {
+  createBook,
+  getAllBookes,
+  getBookById,
+  updateBook,
+  deleteBook,
+};

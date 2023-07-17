@@ -17,8 +17,35 @@ type IPaginationOptions = {
 type IFilters = {
   searchTerm?: string;
 };
-const createBook = (payload: IBook) => {
-  const result = Book.create(payload);
+const createBook = async (payload: IBook) => {
+  const result = await Book.create(payload);
+  return result;
+};
+const updateBook = async (
+  ownerId: string,
+  bookId: string,
+  payload: Partial<IBook>
+) => {
+  console.log();
+  const result = await Book.findOneAndUpdate(
+    { _id: bookId, owenr: ownerId },
+    payload,
+    {
+      new: true,
+    }
+  );
+  if (!result) {
+    throw new Error('Something went wrong');
+  }
+  console.log(result);
+  return result;
+};
+const deleteBook = async (ownerId: string, bookId: string) => {
+  const result = await Book.findByIdAndDelete({ _id: bookId, owenr: ownerId });
+  return result;
+};
+const getBookById = async (_id: string) => {
+  const result = await Book.findById({ _id });
   return result;
 };
 const getAllBooks = async (
@@ -69,4 +96,10 @@ const getAllBooks = async (
   };
 };
 
-export const bookService = { createBook, getAllBooks };
+export const bookService = {
+  createBook,
+  getAllBooks,
+  updateBook,
+  getBookById,
+  deleteBook,
+};

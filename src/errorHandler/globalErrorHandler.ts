@@ -10,15 +10,15 @@ type IGenericMessages = {
 
 const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   const statusCode = 500;
-  const message = 'Internal server error';
+  const message = 'Something went wrong';
   const errorMessages: IGenericMessages[] = err?.message
-  ? [
-      {
-        path: '',
-        message: err?.message,
-      },
-    ]
-  : [];
+    ? [
+        {
+          path: '',
+          message: err?.message,
+        },
+      ]
+    : [];
   console.log('--------------error---------------', err);
   res.status(statusCode).json({
     success: false,

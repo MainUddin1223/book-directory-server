@@ -2,6 +2,7 @@ import express from 'express';
 import config from '../config';
 import authRouter from '../modules/authModule/auth.route';
 import bookRouter from '../modules/bookModule/book.route';
+import userRouter from '../modules/userModule/user.route';
 const router = express.Router();
 const defaultRoutes = [
   {
@@ -11,6 +12,10 @@ const defaultRoutes = [
   {
     path: '/book',
     route: bookRouter.bookRouter,
+  },
+  {
+    path: '/user',
+    route: userRouter.userRouter,
   },
 ];
 defaultRoutes.forEach(route => {

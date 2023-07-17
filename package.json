@@ -24,7 +24,7 @@
     "mongoose": "^7.3.4"
   },
   "lint-staged": {
-    "src/**/*.ts": "npm lint-prettier"
+    "src/**/*.ts": "yarn lint-prettier"
   },
   "devDependencies": {
     "@types/cors": "^2.8.13",
