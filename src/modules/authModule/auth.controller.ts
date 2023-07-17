@@ -1,13 +1,14 @@
 import { jwtHelpers } from "../../jwt";
 import { User } from "./auth.model";
 import config from '../../config';
+import { NextFunction, Request, Response } from "express";
 const {
     jwt_access_secret,
     jwt_access_expires_in
   } = config.jwt;
-const auth = async(req,res,next)=>{
+const auth = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const {_id}=req.user;
+        const _id = req.user?._id;
         const getUser = await User.findById(_id).select('-password');
         if(getUser?.email){
             const userData = {_id:getUser._id,email:getUser.email}
@@ -21,7 +22,7 @@ const auth = async(req,res,next)=>{
         next(error)
     }
 }
-const login = async(req,res,next)=>{
+const login = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const {email,password}=req.body;
         console.log(email,password)
@@ -49,7 +50,7 @@ const login = async(req,res,next)=>{
         next(error)
     }
 }
-const register = async(req,res,next)=>{
+const register = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const {email,password}=req.body;
         const isExist = await User.findOne({email});
