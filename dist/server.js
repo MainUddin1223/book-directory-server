@@ -47,3 +47,4 @@ function connectDB() {
     });
 }
 connectDB();
+exports.default = app_1.default;

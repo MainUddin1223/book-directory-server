@@ -9,6 +9,6 @@ router
   .patch(verifyAuth(), bookController.updateBook)
   .delete(verifyAuth(), bookController.deleteBook)
   .get(verifyAuth(), bookController.getBookById);
-router.route('/').get(verifyAuth(), bookController.getAllBookes);
+router.route('/').get(bookController.getAllBookes);
 
 export default { bookRouter: router };
