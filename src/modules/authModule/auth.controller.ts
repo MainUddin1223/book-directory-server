@@ -21,7 +21,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { email, password } = req.body;
     if (email && password) {
-      const isExist = await User.findOne({ email }).select('-password');
+      const isExist = await User.findOne({ email });
       if (isExist) {
         const matchPassword = isExist.password === password;
         if (!matchPassword) {
@@ -33,7 +33,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
             jwt_access_secret!,
             jwt_access_expires_in!
           );
-          res.status(200).json({ ...userData, token });
+          res.status(200).json({ ...userData, token, success: true });
         }
       } else {
         throw new Error("User dosen't exist");
@@ -59,7 +59,7 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
         jwt_access_secret!,
         jwt_access_expires_in!
       );
-      res.status(200).json({ ...userData, token });
+      res.status(200).json({ ...userData, token, success: true });
     }
   } catch (error) {
     next(error);

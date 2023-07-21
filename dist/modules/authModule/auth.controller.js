@@ -47,7 +47,7 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
                 else {
                     const userData = { _id: isExist._id, email: isExist.email };
                     const token = jwt_1.jwtHelpers.createJwtToken(userData, jwt_access_secret, jwt_access_expires_in);
-                    res.status(200).json(Object.assign(Object.assign({}, userData), { token }));
+                    res.status(200).json(Object.assign(Object.assign({}, userData), { token, success: true }));
                 }
             }
             else {
@@ -73,7 +73,7 @@ const register = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
             const user = yield auth_model_1.User.create({ email, password });
             const userData = { _id: user._id, email: user.email };
             const token = jwt_1.jwtHelpers.createJwtToken(userData, jwt_access_secret, jwt_access_expires_in);
-            res.status(200).json(Object.assign(Object.assign({}, userData), { token }));
+            res.status(200).json(Object.assign(Object.assign({}, userData), { token, success: true }));
         }
     }
     catch (error) {

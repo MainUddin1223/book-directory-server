@@ -10,7 +10,7 @@ type IGenericMessages = {
 
 const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   const statusCode = 500;
-  const message = 'Something went wrong';
+  const message = err?.message ?? 'Something went wrong';
   const errorMessages: IGenericMessages[] = err?.message
     ? [
         {
