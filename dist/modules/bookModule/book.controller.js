@@ -64,6 +64,19 @@ const deleteBook = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         next(error);
     }
 });
+const getMyBooks = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    var _d;
+    try {
+        const paiganationOptions = (0, pick_1.default)(req.query, paiganationFields);
+        const filters = (0, pick_1.default)(req.query, academicFiltarableFields);
+        const id = (_d = req.user) === null || _d === void 0 ? void 0 : _d._id;
+        const result = yield book_service_1.bookService.getMyBooks(filters, paiganationOptions, id);
+        res.status(200).json(result);
+    }
+    catch (error) {
+        next(error);
+    }
+});
 const getAllBookes = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const paiganationOptions = (0, pick_1.default)(req.query, paiganationFields);
@@ -81,4 +94,5 @@ exports.bookController = {
     getBookById,
     updateBook,
     deleteBook,
+    getMyBooks,
 };

@@ -86,10 +86,51 @@ const getAllBooks = (filters, paiganationOptions) => __awaiter(void 0, void 0, v
         data: result,
     };
 });
+const getMyBooks = (filters, paiganationOptions, ownerId) => __awaiter(void 0, void 0, void 0, function* () {
+    const { searchTerm } = filters, filtersData = __rest(filters, ["searchTerm"]);
+    const andCondition = [];
+    if (searchTerm) {
+        andCondition.push({
+            $or: ['title'].map(field => ({
+                [field]: {
+                    $regex: searchTerm,
+                    $options: 'i',
+                },
+            })),
+        });
+    }
+    if (Object.keys(filtersData).length) {
+        andCondition.push({
+            $and: Object.entries(filtersData).map(([field, value]) => ({
+                [field]: value,
+            })),
+        });
+    }
+    const { page, limit, skip, sortBy, sortOrder } = pagination_1.pagination.calculatePagination(paiganationOptions);
+    const sortCondition = {};
+    if (sortBy && sortOrder) {
+        sortCondition[sortBy] = sortOrder;
+    }
+    const whereCondition = andCondition.length > 0 ? { $and: andCondition } : {};
+    const result = yield book_model_1.Book.find(Object.assign({ owner: ownerId }, whereCondition))
+        .sort(sortCondition)
+        .skip(skip)
+        .limit(limit);
+    const total = yield book_model_1.Book.countDocuments();
+    return {
+        meta: {
+            page,
+            limit,
+            total,
+        },
+        data: result,
+    };
+});
 exports.bookService = {
     createBook,
     getAllBooks,
     updateBook,
     getBookById,
     deleteBook,
+    getMyBooks,
 };
