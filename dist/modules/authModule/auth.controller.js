@@ -38,7 +38,7 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
     try {
         const { email, password } = req.body;
         if (email && password) {
-            const isExist = yield auth_model_1.User.findOne({ email }).select('-password');
+            const isExist = yield auth_model_1.User.findOne({ email });
             if (isExist) {
                 const matchPassword = isExist.password === password;
                 if (!matchPassword) {

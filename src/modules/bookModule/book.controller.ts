@@ -48,6 +48,22 @@ const deleteBook = async (req: Request, res: Response, next: NextFunction) => {
     next(error);
   }
 };
+const getMyBooks = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const paiganationOptions = pick(req.query, paiganationFields);
+    const filters = pick(req.query, academicFiltarableFields);
+    const id = req.user?._id;
+    const result = await bookService.getMyBooks(
+      filters,
+      paiganationOptions,
+      id
+    );
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const getAllBookes = async (
   req: Request,
   res: Response,
@@ -69,4 +85,5 @@ export const bookController = {
   getBookById,
   updateBook,
   deleteBook,
+  getMyBooks,
 };

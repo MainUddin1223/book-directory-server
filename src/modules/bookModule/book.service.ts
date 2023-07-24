@@ -95,6 +95,54 @@ const getAllBooks = async (
     data: result,
   };
 };
+const getMyBooks = async (
+  filters: IFilters,
+  paiganationOptions: IPaginationOptions,
+  ownerId: string
+) => {
+  const { searchTerm, ...filtersData } = filters;
+
+  const andCondition = [];
+  if (searchTerm) {
+    andCondition.push({
+      $or: ['title'].map(field => ({
+        [field]: {
+          $regex: searchTerm,
+          $options: 'i',
+        },
+      })),
+    });
+  }
+  if (Object.keys(filtersData).length) {
+    andCondition.push({
+      $and: Object.entries(filtersData).map(([field, value]) => ({
+        [field]: value,
+      })),
+    });
+  }
+  const { page, limit, skip, sortBy, sortOrder } =
+    pagination.calculatePagination(paiganationOptions);
+  const sortCondition: { [key: string]: SortOrder } = {};
+
+  if (sortBy && sortOrder) {
+    sortCondition[sortBy] = sortOrder;
+  }
+  const whereCondition = andCondition.length > 0 ? { $and: andCondition } : {};
+
+  const result = await Book.find({ owner: ownerId, ...whereCondition })
+    .sort(sortCondition)
+    .skip(skip)
+    .limit(limit);
+  const total = await Book.countDocuments();
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: result,
+  };
+};
 
 export const bookService = {
   createBook,
@@ -102,4 +150,5 @@ export const bookService = {
   updateBook,
   getBookById,
   deleteBook,
+  getMyBooks,
 };

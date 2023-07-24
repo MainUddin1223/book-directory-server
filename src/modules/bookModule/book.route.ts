@@ -10,5 +10,6 @@ router
   .delete(verifyAuth(), bookController.deleteBook)
   .get(verifyAuth(), bookController.getBookById);
 router.route('/').get(bookController.getAllBookes);
+router.route('/my-books').get(verifyAuth(), bookController.getMyBooks);
 
 export default { bookRouter: router };
