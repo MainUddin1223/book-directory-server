@@ -28,14 +28,12 @@ const createBook = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     return result;
 });
 const updateBook = (ownerId, bookId, payload) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log();
-    const result = yield book_model_1.Book.findOneAndUpdate({ _id: bookId, owenr: ownerId }, payload, {
+    const result = yield book_model_1.Book.findOneAndUpdate({ _id: bookId, owner: ownerId }, payload, {
         new: true,
     });
     if (!result) {
-        throw new Error('Something went wrong');
+        throw new Error(`book not found`);
     }
-    console.log(result);
     return result;
 });
 const deleteBook = (ownerId, bookId) => __awaiter(void 0, void 0, void 0, function* () {

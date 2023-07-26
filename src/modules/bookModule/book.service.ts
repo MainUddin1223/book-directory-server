@@ -26,18 +26,16 @@ const updateBook = async (
   bookId: string,
   payload: Partial<IBook>
 ) => {
-  console.log();
   const result = await Book.findOneAndUpdate(
-    { _id: bookId, owenr: ownerId },
+    { _id: bookId, owner: ownerId },
     payload,
     {
       new: true,
     }
   );
   if (!result) {
-    throw new Error('Something went wrong');
+    throw new Error(`book not found`);
   }
-  console.log(result);
   return result;
 };
 const deleteBook = async (ownerId: string, bookId: string) => {

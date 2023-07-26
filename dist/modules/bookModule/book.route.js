@@ -8,11 +8,11 @@ const auth_middleware_1 = require("../../middlewares/auth.middleware");
 const book_controller_1 = require("./book.controller");
 const router = express_1.default.Router();
 router.route('/create').post((0, auth_middleware_1.verifyAuth)(), book_controller_1.bookController.createBook);
+router.route('/my-books').get((0, auth_middleware_1.verifyAuth)(), book_controller_1.bookController.getMyBooks);
+router.route('/').get(book_controller_1.bookController.getAllBookes);
 router
     .route('/:id')
     .patch((0, auth_middleware_1.verifyAuth)(), book_controller_1.bookController.updateBook)
     .delete((0, auth_middleware_1.verifyAuth)(), book_controller_1.bookController.deleteBook)
     .get((0, auth_middleware_1.verifyAuth)(), book_controller_1.bookController.getBookById);
-router.route('/').get(book_controller_1.bookController.getAllBookes);
-router.route('/my-books').get((0, auth_middleware_1.verifyAuth)(), book_controller_1.bookController.getMyBooks);
 exports.default = { bookRouter: router };
